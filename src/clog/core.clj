@@ -1,6 +1,7 @@
 (ns clog.core
   (use [ring.adapter.jetty]
-       [hiccup.core])
+       [hiccup.core]
+       [ring.middleware.params])
   (:require [hiccup.page :as page]))
 
 (defn- page []
@@ -8,13 +9,15 @@
     [:head
       [:title "Clog"]]
     [:body
-      [:div "Hello and welcome to Clog"]]))
-
-(defn -main
-  [& args]
-  (println "Hello World"))
+      [:form {:action "/save"}
+      [:textarea {:rows "4", :cols "50", :name "blog-post"}]
+      [:br]
+      [:input {:type "submit"}]]]))
 
 (defn handle [request]
   {:status 200
    :headers {}
    :body (page)})
+
+(def app
+  (wrap-params handle))
