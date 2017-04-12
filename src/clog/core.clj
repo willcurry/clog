@@ -2,21 +2,23 @@
   (use [ring.adapter.jetty]
        [hiccup.core]
        [ring.middleware.params]
-       [clog.presenter])
-  (:require  [clojure.java.jdbc :as j]))
+       [clog.presenter]
+       [clog.blogs]))
 
-(def pg-db 
-  "postgresql://localhost:5432/clog")
-
-(defn- save-blog [blog]
-  (j/insert! pg-db :blogs
-    {:blog blog}))
-
-(defn- handle [request]
-  (if (= (first (:query-params request)) "save") (save-blog "test"))
+(defn- response [page]
   {:status 200
    :headers {}
-   :body (page)})
+   :body page})
+
+(defn- save-request [parameters]
+  (save-blog (first parameters)))
+
+(defn- handle [request]
+  (let [page (first (:query-params request))
+       parameters (rest (:query-params request))]
+       (cond 
+        (= page "save") (save-request parameters)))
+        (response index))
 
 (def app
   (wrap-params handle))

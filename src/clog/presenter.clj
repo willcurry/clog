@@ -1,7 +1,7 @@
 (ns clog.presenter
   (:require [hiccup.page :as page]))
 
-(defn page []
+(defn index []
   (page/html5
     [:head
       [:title "Clog"]]

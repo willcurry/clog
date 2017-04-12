@@ -4,4 +4,4 @@
 
 (describe "presenter"
   (it "should return a page with the title Clog"
-    (should-contain "<title>Clog</title>" (page))))
+    (should-contain "<title>Clog</title>" (index))))

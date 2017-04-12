@@ -1,6 +1,7 @@
 (ns clog.core-spec
   (:require [speclj.core :refer :all]
             [clog.core :refer :all]
+            [clog.blogs :refer :all]
             [clojure.java.jdbc :as sql]))
 
 (describe "core"
