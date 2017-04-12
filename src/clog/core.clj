@@ -2,7 +2,11 @@
   (use [ring.adapter.jetty]
        [hiccup.core]
        [ring.middleware.params])
-  (:require [hiccup.page :as page]))
+  (:require [hiccup.page :as page]
+            [clojure.java.jdbc :as j]))
+
+(def pg-db 
+  "postgresql://localhost:5432/clog")
 
 (defn- page []
   (page/html5
@@ -14,7 +18,12 @@
       [:br]
       [:input {:type "submit"}]]]))
 
-(defn handle [request]
+(defn- save-blog [blog]
+  (j/insert! pg-db :blogs
+    {:blog blog}))
+
+(defn- handle [request]
+  (if (= (first (:query-params request)) "save") (save-blog "test"))
   {:status 200
    :headers {}
    :body (page)})
