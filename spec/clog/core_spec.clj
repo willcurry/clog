@@ -9,8 +9,8 @@
   (after
     (sql/db-do-commands pg-db "truncate table blogs"))
 
-  (it "returns a page with the title of clog"
-    (should-contain "<title>Clog</title>" (:body (app {:query-params [""]}))))
+  (it "returns a 200 response after a valid request"
+    (should= 200 (:status (app {:query-params [""]}))))
 
   (it "saves a blog"
     (app {:query-params ["save" "test"]})
