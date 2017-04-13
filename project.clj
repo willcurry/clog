@@ -10,5 +10,8 @@
                  [org.clojure/java.jdbc "0.6.1"]
                  [org.postgresql/postgresql "9.4-1201-jdbc41"]]
   :profiles {:dev {:dependencies [[speclj "3.3.2"]]}}
-  :plugins [[speclj "3.3.2"]]
-  :test-paths ["spec"])
+  :plugins [[speclj "3.3.2"]
+            [lein-ring "0.11.0"]]
+  :test-paths ["spec"]
+  :ring {:handler clog.core/app})
+

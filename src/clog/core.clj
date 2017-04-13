@@ -14,11 +14,12 @@
   (save-blog (first parameters)))
 
 (defn- handle [request]
-  (let [page (first (:query-params request))
-       parameters (rest (:query-params request))]
-       (cond 
-        (= page "save") (save-request parameters)))
-        (response index))
+  (let [query-params (first (:query-params request))
+    page (first query-params)
+    parameters (rest query-params)]
+    (cond 
+      (= page "save") (save-request parameters))
+      (response (index))))
 
 (def app
   (wrap-params handle))

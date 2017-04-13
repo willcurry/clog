@@ -7,3 +7,7 @@
 (defn save-blog [blog]
   (sql/insert! pg-db :blogs
     {:blog blog}))
+
+(defn all-blogs []
+  (sql/query pg-db
+    ["select * from blogs"]))
