@@ -8,10 +8,6 @@
       [:title "Clog"]
       (page/include-css "css/style.css")]
     [:body
-      [:form 
-      [:textarea {:rows "4", :cols "50", :name "save"}]
-      [:br]
-      [:input  {:type "submit"}]]
       [:h1 "Blogs"]
       (map (fn [blog]
         [:figure {:class "snip1369 green"}
@@ -23,4 +19,16 @@
         [:span {:class "read-more"} "\n    Read More " 
          [:i {:class "ion-android-arrow-forward"}]]
         [:a {:href "#"}]]) 
-      (all-blogs))]))
+      (all-blogs))
+      [:form 
+      [:textarea {:rows "5", :cols "60", :name "save"}]
+      [:br]
+      [:input  {:type "submit"}]]]))
+
+(defn blog-view [blog]
+  (page/html5
+    [:head
+      [:title "Clog"]
+      (page/include-css "css/style.css")]
+    [:body
+      [:h1 blog]]))

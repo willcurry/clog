@@ -12,15 +12,20 @@
    :body page})
 
 (defn- save-request [parameters]
-  (save-blog (first parameters)))
+  (save-blog (first parameters))
+  (response (index)))
+
+(defn- blog-view-request [parameters]
+  (response (blog-view (first parameters))))
 
 (defn- handle [request]
   (let [query-params (first (:query-params request))
-    page (first query-params)
-    parameters (rest query-params)]
+        page (first query-params)
+        parameters (rest query-params)]
     (cond 
-      (= page "save") (save-request parameters))
-      (response (index))))
+      (= page "save") (save-request parameters)
+      (= page "view") (blog-view-request parameters)
+      :else (response (index)))))
 
 (def app
   (-> handle

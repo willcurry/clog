@@ -17,4 +17,8 @@
     (app {:query-params [["save" "test"]]})
     (should= "test"
       (:blog (first (sql/query pg-db
-        ["select * from blogs where blog='test'"]))))))
+        ["select * from blogs where blog='test'"])))))
+  
+  (it "goes to the blog view when requested" 
+    (should-contain "<h1>test-blog</h1>"
+      (:body (app {:query-params [["view" "test-blog"]]})))))
