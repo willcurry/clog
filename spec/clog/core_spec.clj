@@ -14,7 +14,7 @@
     (should= 200 (:status (app {:query-params [""]}))))
 
   (it "saves the given blog"
-    (app {:query-params ["save" "test"]})
-    (should= {:blog "test"}
-      (first (sql/query pg-db
-        ["select * from blogs where blog='test'"])))))
+    (app {:query-params [["save" "test"]]})
+    (should= "test"
+      (:blog (first (sql/query pg-db
+        ["select * from blogs where blog='test'"]))))))

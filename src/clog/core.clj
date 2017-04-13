@@ -2,6 +2,7 @@
   (use [ring.adapter.jetty]
        [hiccup.core]
        [ring.middleware.params]
+       [ring.middleware.resource]
        [clog.presenter]
        [clog.blogs]))
 
@@ -22,4 +23,6 @@
       (response (index))))
 
 (def app
-  (wrap-params handle))
+  (-> handle
+    (wrap-params)
+    (wrap-resource "public")))

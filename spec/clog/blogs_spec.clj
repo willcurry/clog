@@ -11,10 +11,11 @@
 
   (it "saves a blog"
     (save-blog "test")
-    (should= {:blog "test"}
-      (first (sql/query pg-db
-        ["select * from blogs where blog='test'"]))))
+    (should= "test"
+      (:blog (first (sql/query pg-db
+        ["select * from blogs where blog='test'"])))))
 
   (it "can get all blogs"
     (save-blog "test")
-    (should= [{:blog "test"}] (all-blogs))))
+    (save-blog "test2")
+    (should= 2 (count (all-blogs)))))
