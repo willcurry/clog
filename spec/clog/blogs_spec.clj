@@ -17,5 +17,10 @@
 
   (it "can get all blogs"
     (save-blog "test")
-    (save-blog "test2")
-    (should= 2 (count (all-blogs)))))
+    (save-blog "test")
+    (should= 2 (count (all-blogs))))
+  
+  (it "can get a blog with its id"
+    (save-blog "test-blog")
+    (let [id (:id (first (all-blogs)))]
+      (should= "test-blog" (:blog (get-blog id))))))

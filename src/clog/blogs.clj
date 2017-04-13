@@ -11,3 +11,7 @@
 (defn all-blogs []
   (sql/query pg-db
     ["select * from blogs"]))
+
+(defn get-blog [id]
+  (first (sql/query pg-db
+    ["select * from blogs where id=?" id])))
