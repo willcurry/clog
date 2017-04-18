@@ -1,6 +1,7 @@
 (ns clog.presenter
   (use [clog.blogs])
-  (:require [hiccup.page :as page]))
+  (:require [hiccup.page :as page]
+            [clog.markdown :as markdown]))
 
 (defn- create-page [body]
   (page/html5
@@ -27,7 +28,7 @@
       [:div {:class "image"}]
       [:figcaption  
        [:h3 (:date blog)]
-        [:p (preview-blog (:id blog))]]
+        [:p (markdown/parse (preview-blog (:id blog)))]]
       [:span {:class "read-more"} "\n    Read More " 
        [:i {:class "ion-android-arrow-forward"}]]
       [:a {:href (str "?view=" (:id blog))}]]) 
@@ -40,4 +41,4 @@
 (defn blog-view [blog]
   (create-page [:div {:class "blog"}
         [:h1 (:date blog)]
-        [:p (:blog blog)]]))
+        [:p (markdown/parse (:blog blog))]]))
