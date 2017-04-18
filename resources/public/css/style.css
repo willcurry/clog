@@ -17,6 +17,17 @@
   padding-bottom: 10px;   
 }
 
+.blog a {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  text-decoration: none;
+  color: rgb(100, 100, 150);
+}
+
+.blog a:hover {
+  color: rgb(100, 100, 200);
+}
+
 .footer a {
   font-family: 'Oswald', sans-serif;
   font-size: 20px;

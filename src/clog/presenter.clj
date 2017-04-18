@@ -41,4 +41,13 @@
 (defn blog-view [blog]
   (create-page [:div {:class "blog"}
         [:h1 (:date blog)]
-        [:p (markdown/parse (:blog blog))]]))
+        [:p (markdown/parse (:blog blog))]
+        [:a {:href (str "?edit=" (:id blog))} "Edit"]]))
+
+(defn edit-view [blog]
+  (create-page [:div {:class "blog"}
+    [:h1 (:date blog)]
+    [:form 
+      [:textarea {:rows "5", :cols "60", :name "save"} (:blog blog)]
+      [:br]
+      [:input  {:type "submit"}]]]))

@@ -20,6 +20,11 @@
         blog (get-blog id)]
   (response (blog-view blog))))
 
+(defn- edit-view-request [parameters]
+  (let [id (read-string (first parameters))
+        blog (get-blog id)]
+  (response (edit-view blog))))
+
 (defn- handle [request]
   (let [query-params (first (:query-params request))
         page (first query-params)
@@ -27,6 +32,7 @@
     (cond 
       (= page "save") (save-request parameters)
       (= page "view") (blog-view-request parameters)
+      (= page "edit") (edit-view-request parameters)
       :else (response (index)))))
 
 (def app
