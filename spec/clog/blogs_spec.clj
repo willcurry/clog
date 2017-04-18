@@ -28,4 +28,4 @@
   (it "returns a 10 word preview"
     (save-blog "this is a test blog consisting of 11 words only 11")
       (let [id (:id (first (all-blogs)))]
-        (should= 10 (count (preview-blog id))))))
+        (should= 53 (count (preview-blog id))))))

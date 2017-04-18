@@ -15,7 +15,7 @@
         [:div {:class "image"}]
         [:figcaption  
          [:h3 (:date blog)]
-          [:p (:blog blog)]]
+          [:p (preview-blog (:id blog))]]
         [:span {:class "read-more"} "\n    Read More " 
          [:i {:class "ion-android-arrow-forward"}]]
         [:a {:href (str "?view=" (:id blog))}]]) 
