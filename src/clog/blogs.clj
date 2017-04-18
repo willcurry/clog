@@ -21,3 +21,7 @@
     ["select * from blogs where id=?" id])))]
       (str (subs blog 0 (min (count blog) 150)) 
         (if (> (count blog) 150) "..."))))
+
+(defn update-blog [id text]
+  (sql/execute! pg-db
+    ["update blogs SET blog=? WHERE id=?" text id]))
