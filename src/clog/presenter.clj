@@ -31,5 +31,6 @@
       [:title "Clog"]
       (page/include-css "css/style.css")]
     [:body
-      [:h1 (:date blog)]
-      [:p (:blog blog)]]))
+      [:div {:class "blog"}
+        [:h1 (:date blog)]
+        [:p (:blog blog)]]]))

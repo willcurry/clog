@@ -1,7 +1,13 @@
 @import url(http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,500,700);
 
-/* from http://littlesnippets.net */
+.blog {
+  background-color: rgba(112, 113, 114, 0.5);
+  width: 50%;
+  margin: auto;
+  text-align: center;
+  padding-bottom: 15px;
+}
 
 h1 {
   font-family: 'Raleway', Arial, sans-serif;
@@ -12,6 +18,8 @@ p {
   font-family: 'Raleway', Arial, sans-serif;
   color: #ffffff;
 }
+
+/* from http://littlesnippets.net */
 
 .snip1369 {
   font-family: 'Raleway', Arial, sans-serif;
