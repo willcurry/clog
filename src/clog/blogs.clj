@@ -15,3 +15,8 @@
 (defn get-blog [id]
   (first (sql/query pg-db
     ["select * from blogs where id=?" id])))
+
+(defn preview-blog [id]
+   (let [blog (:blog (first (sql/query pg-db
+    ["select * from blogs where id=?" id])))]
+      (clojure.string/split blog #" " 10)))

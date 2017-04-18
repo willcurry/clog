@@ -15,7 +15,7 @@
       (:blog (first (sql/query pg-db
         ["select * from blogs where blog='test'"])))))
 
-  (it "can get all blogs"
+  (it "saves multiple blogs"
     (save-blog "test")
     (save-blog "test")
     (should= 2 (count (all-blogs))))
@@ -23,4 +23,9 @@
   (it "can get a blog with its id"
     (save-blog "test-blog")
     (let [id (:id (first (all-blogs)))]
-      (should= "test-blog" (:blog (get-blog id))))))
+      (should= "test-blog" (:blog (get-blog id)))))
+  
+  (it "returns a 10 word preview"
+    (save-blog "this is a test blog consisting of 11 words only 11")
+      (let [id (:id (first (all-blogs)))]
+        (should= 10 (count (preview-blog id))))))
