@@ -28,4 +28,9 @@
   (it "returns a 10 word preview"
     (save-blog "this is a test blog consisting of 11 words only 11")
       (let [id (:id (first (all-blogs)))]
-        (should= 53 (count (preview-blog id))))))
+        (should= 50 (count (preview-blog id)))))
+  
+  (it "adds ... to the preview if its over 150 chars"
+    (save-blog "test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test")
+      (let [id (:id (first (all-blogs)))]
+        (should-contain "..." (preview-blog id)))))

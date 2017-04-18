@@ -19,4 +19,5 @@
 (defn preview-blog [id]
    (let [blog (:blog (first (sql/query pg-db
     ["select * from blogs where id=?" id])))]
-      (str (subs blog 0 (min (count blog) 150)) "...")))
+      (str (subs blog 0 (min (count blog) 150)) 
+        (if (> (count blog) 150) "..."))))
