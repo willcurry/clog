@@ -29,4 +29,10 @@
     (save-blog "test-blog")
       (let [id (str (:id (first (all-blogs))))]
         (should-contain "test-blog</textarea>" 
-          (:body (app {:query-params [["edit" id]]}))))))
+          (:body (app {:query-params [["edit" id]]})))))
+
+  (it "updates blog when requested"
+    (save-blog "test-blog")
+      (let [id (:id (first (all-blogs)))]
+        (app {:query-params [["update" "test"] ["id" (str id)]]})
+        (should= "test" (:blog (get-blog id))))))

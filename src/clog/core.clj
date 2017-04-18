@@ -11,7 +11,7 @@
    :headers {}
    :body page})
 
-(defn- save-request [parameters]
+(defn- save-blog-request [parameters]
   (save-blog (first parameters))
   (response (index)))
 
@@ -25,14 +25,22 @@
         blog (get-blog id)]
   (response (edit-view blog))))
 
-(defn- handle [request]
-  (let [query-params (first (:query-params request))
-        page (first query-params)
-        parameters (rest query-params)]
+(defn- update-blog-request [parameters secondary-parameters]
+  (let [text (first parameters)
+        id (read-string (first secondary-parameters))]
+    (update-blog id text)
+    (response (blog-view (get-blog id)))))
+
+(defn- handle [request-data]
+  (let [data (first (:query-params request-data))
+        request (first data)
+        parameters (rest data)
+        secondary-parameters (rest (second (:query-params request-data)))]
     (cond 
-      (= page "save") (save-request parameters)
-      (= page "view") (blog-view-request parameters)
-      (= page "edit") (edit-view-request parameters)
+      (= request "save") (save-blog-request parameters)
+      (= request "view") (blog-view-request parameters)
+      (= request "edit") (edit-view-request parameters)
+      (= request "update") (update-blog-request parameters secondary-parameters)
       :else (response (index)))))
 
 (def app

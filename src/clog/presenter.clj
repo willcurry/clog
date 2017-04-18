@@ -44,7 +44,8 @@
 (defn edit-view [blog]
   (create-page [:div {:class "blog"}
     [:h1 (:date blog)]
-    [:form 
-      [:textarea {:rows "5", :cols "60", :name "save"} (:blog blog)]
+    [:form
+      [:textarea {:rows "5" :cols "60" :name "update"} (:blog blog)]
       [:br]
+      [:input {:type "hidden" :name "id" :value (:id blog)}]
       [:input  {:type "submit"}]]]))
