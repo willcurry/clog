@@ -12,12 +12,9 @@
         [:header 
           [:div {:class "nav"}
             [:ul
-              [:li {:class "home"} 
-                [:a {:href "/"} "Home"]]]]]
-      body
-      [:div {:class "footer"} 
-        [:footer
-          [:a {:href "https://github.com/willcurry/clog"} "Clog github page"]]]]))
+              [:li [:a {:href "/"} "Home"]
+              [:li [:a {:href "https://github.com/willcurry/clog"} "GitHub"]]]]]
+      body]]))
 
 
 (defn index []
