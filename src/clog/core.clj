@@ -16,7 +16,9 @@
   (response (index)))
 
 (defn- blog-view-request [parameters]
-  (response (blog-view (first parameters))))
+  (let [id (read-string (first parameters))
+        blog (get-blog id)]
+  (response (blog-view blog))))
 
 (defn- handle [request]
   (let [query-params (first (:query-params request))

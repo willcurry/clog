@@ -18,7 +18,7 @@
           [:p (:blog blog)]]
         [:span {:class "read-more"} "\n    Read More " 
          [:i {:class "ion-android-arrow-forward"}]]
-        [:a {:href "#"}]]) 
+        [:a {:href (str "?view=" (:id blog))}]]) 
       (all-blogs))
       [:form 
       [:textarea {:rows "5", :cols "60", :name "save"}]
@@ -31,4 +31,5 @@
       [:title "Clog"]
       (page/include-css "css/style.css")]
     [:body
-      [:h1 blog]]))
+      [:h1 (:date blog)]
+      [:p (:blog blog)]]))

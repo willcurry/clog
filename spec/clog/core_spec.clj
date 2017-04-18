@@ -20,5 +20,7 @@
         ["select * from blogs where blog='test'"])))))
   
   (it "goes to the blog view when requested" 
-    (should-contain "<h1>test-blog</h1>"
-      (:body (app {:query-params [["view" "test-blog"]]})))))
+    (save-blog "test-blog")
+    (let [id (str (:id (first (all-blogs))))]
+      (should-contain "<p>test-blog</p>"
+        (:body (app {:query-params [["view" id]]}))))))
