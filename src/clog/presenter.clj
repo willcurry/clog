@@ -16,7 +16,6 @@
               [:li [:a {:href "https://github.com/willcurry/clog"} "GitHub"]]]]]
       body]]))
 
-
 (defn index []
   (create-page [:div [:h1 "Blogs"]
     (map (fn [blog]
