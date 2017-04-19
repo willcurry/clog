@@ -11,7 +11,7 @@
     (sql/db-do-commands pg-db "truncate table blogs"))
 
   (it "returns a 200 response after a valid request"
-    (should= 200 (:status (app {:query-params [""]}))))
+    (should= 200 (:status (app {:query-params [[""]]}))))
 
   (it "saves the given blog"
     (app {:query-params [["save" "test"]]})

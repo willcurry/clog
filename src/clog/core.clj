@@ -11,39 +11,40 @@
    :headers {}
    :body page})
 
-(defn- save-blog-request [parameters]
-  (save-blog (first parameters))
+(defn- save-blog-request [[request-params]]
+  (save-blog (second request-params))
   (response (index)))
 
-(defn- blog-view-request [parameters]
-  (let [id (read-string (first parameters))
+(defn- blog-view-request [[request-params]]
+  (let [id (read-string (second request-params))
         blog (get-blog id)]
   (response (blog-view blog))))
 
-(defn- edit-view-request [parameters]
-  (let [id (read-string (first parameters))
+(defn- edit-view-request [[request-params]]
+  (let [id (read-string (second request-params))
         blog (get-blog id)]
   (response (edit-view blog))))
 
-(defn- update-blog-request [parameters secondary-parameters]
-  (let [text (first parameters)
-        id (read-string (first secondary-parameters))]
+(defn- update-blog-request [[update-params id-params]]
+  (let [text (second update-params)
+        id (read-string (second id-params))]
     (update-blog id text)
     (response (blog-view (get-blog id)))))
 
-(defn- handle [request-data]
-  (let [data (first (:query-params request-data))
-        request (first data)
-        parameters (rest data)
-        secondary-parameters (rest (second (:query-params request-data)))]
-    (cond 
-      (= request "save") (save-blog-request parameters)
-      (= request "view") (blog-view-request parameters)
-      (= request "edit") (edit-view-request parameters)
-      (= request "update") (update-blog-request parameters secondary-parameters)
-      :else (response (index)))))
+(defn- requests []
+  {:save save-blog-request
+  :view blog-view-request
+  :edit edit-view-request
+  :update update-blog-request})
+
+(defn- handler [request-data]
+  (let [query-data (:query-params request-data)
+        callback (first (map #((keyword (first %)) (requests)) query-data))]
+    (if (nil? callback)
+      (response index)
+      (callback query-data))))
 
 (def app
-  (-> handle
+  (-> handler
     (wrap-params)
     (wrap-resource "public")))
