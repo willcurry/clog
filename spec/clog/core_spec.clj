@@ -14,7 +14,7 @@
     (should= 200 (:status (app {:query-params {"" ""}}))))
 
   (it "saves the given blog"
-    (app {:query-params {"save" "test"}})
+    (app {:query-params {"save" "test" "role" "admin"}})
     (should= "test"
       (:blog (first (sql/query pg-db
         ["select * from blogs where blog='test'"])))))
@@ -34,5 +34,16 @@
   (it "updates blog when requested"
     (save-blog "test-blog")
       (let [id (:id (first (all-blogs)))]
+        (app {:query-params {"update" "test" "id" (str id) "role" "admin"}})
+        (should= "test" (:blog (get-blog id)))))
+
+  (it "does not update blogs when not admin"
+    (save-blog "test-blog")
+      (let [id (:id (first (all-blogs)))]
         (app {:query-params {"update" "test" "id" (str id)}})
-        (should= "test" (:blog (get-blog id))))))
+        (should= "test-blog" (:blog (get-blog id)))))
+
+  (it "does not save the given blog when not admin"
+    (app {:query-params {"save" "test"}})
+    (should= 0
+      (count (all-blogs)))))

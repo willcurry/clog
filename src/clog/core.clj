@@ -11,8 +11,12 @@
    :headers {}
    :body page})
 
+(defn- is_admin? [params]
+  (some #{"admin"} params))
+
 (defn- save-blog-request [save-params]
-  (save-blog (first save-params))
+  (if (is_admin? save-params)
+    (save-blog (first save-params)))
   (response (index)))
 
 (defn- blog-view-request [view-params]
@@ -28,7 +32,8 @@
 (defn- update-blog-request [update-params]
   (let [text (first update-params)
         id (read-string (second update-params))]
-    (update-blog id text)
+    (if (is_admin? update-params)
+      (update-blog id text))
     (response (blog-view (get-blog id)))))
 
 (defn- requests []
