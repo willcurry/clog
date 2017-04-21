@@ -1,11 +1,14 @@
 (ns clog.permissions)
 
 (def roles
-  {:admin "admin"
-   :user "user"})
+  {:admin {:name "admin" :flags "*"}
+   :user {:name "user" :flags ["read"]}})
 
-(defn get-role [query-params]
-  (let [role ((keyword (last query-params)) roles)]
+(defn get-role [role-string]
+  (let [role ((keyword role-string) roles)]
     (if (nil? role)
       (:user roles)
       role)))
+
+(defn can-perform? [action role]
+  (= action (some #{action} (:flags role))))
