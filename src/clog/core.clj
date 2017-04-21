@@ -2,18 +2,16 @@
   (require [ring.middleware.params :as params]
        [ring.middleware.resource :as resource]
        [clog.presenter :as presenter]
-       [clog.blogs :as blogs]))
+       [clog.blogs :as blogs]
+       [clog.permissions :as permissions]))
 
 (defn- response [page]
   {:status 200
    :headers {}
    :body page})
 
-(defn- is_admin? [params]
-  (some #{"admin"} params))
-
 (defn- save-blog-request [save-params]
-  (if (is_admin? save-params)
+  (if (permissions/can-perform? "save" (last save-params))
     (blogs/save (first save-params)))
   (response (presenter/index)))
 
@@ -30,7 +28,7 @@
 (defn- update-blog-request [update-params]
   (let [text (first update-params)
         id (read-string (second update-params))]
-    (if (is_admin? update-params)
+    (if (permissions/can-perform? "update" (last update-params))
       (blogs/update id text))
     (response (presenter/blog-view (blogs/retrieve id)))))
 
