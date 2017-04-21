@@ -13,4 +13,8 @@
     (should= true (permissions/can-perform? "read" (permissions/get-role "user"))))
   
   (it "can determine if a user can update"
-    (should= false (permissions/can-perform? "update" (permissions/get-role "user")))))
+    (should= false (permissions/can-perform? "update" (permissions/get-role "user"))))
+  
+  (it "knows admin has all permissions"
+    (should= true (permissions/can-perform? "update" (permissions/get-role "admin")))
+    (should= true (permissions/can-perform? "save" (permissions/get-role "admin")))))

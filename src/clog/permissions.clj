@@ -11,4 +11,6 @@
       role)))
 
 (defn can-perform? [action role]
-  (= action (some #{action} (:flags role))))
+  (or
+    (= action (some #{action} (:flags role)))
+    (= "*" (:flags role))))
