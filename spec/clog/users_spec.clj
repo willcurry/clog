@@ -13,4 +13,9 @@
     (users/save "wcurry@8thlight.com" "admin")
     (should= 1
       (count (sql/query pg-db
-        ["select * from users where email='wcurry@8thlight.com'"])))))
+        ["select * from users where email='wcurry@8thlight.com'"]))))
+  
+  (it "gets a users role from their email"
+    (users/save "wcurry@8thlight.com" "admin")
+    (should= "admin"
+      (users/role-for "wcurry@8thlight.com"))))

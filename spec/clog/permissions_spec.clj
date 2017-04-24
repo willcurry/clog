@@ -1,6 +1,5 @@
 (ns clog.core-spec
   (:require [speclj.core :refer :all]
-            [clojure.java.jdbc :as sql]
             [clog.permissions :as permissions :refer :all]))
 
 (describe "permissions"
