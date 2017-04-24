@@ -9,5 +9,8 @@
     {:email email :role role}))
 
 (defn role-for [email]
-  (:role (first (sql/query pg-db
-    ["select role from users where email=?" email]))))
+  (let [role (:role (first (sql/query pg-db
+    ["select role from users where email=?" email])))]
+    (if (nil? role)
+      "user"
+      role)))
