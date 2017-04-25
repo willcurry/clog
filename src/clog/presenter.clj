@@ -6,6 +6,8 @@
 (defn- create-page [body]
   (page/html5
       [:head
+        [:script {:src "https://apis.google.com/js/platform.js" :async "async" :defer "defer" }]
+        [:meta {:name "google-signin-client_id" :content "862198892066-45b2o1fbgbf8v6n4r89pe3gitiab63di.apps.googleusercontent.com"}]
         [:title "Clog"]
         (page/include-css "css/style.css")]
       [:body 
@@ -32,7 +34,8 @@
     [:form 
       [:textarea {:rows "5", :cols "60", :name "save"}]
       [:br]
-      [:input  {:type "submit"}]]]))
+      [:input  {:type "submit"}]]
+    [:div {:class "g-signin2" :data-onsuccess "onSignIn"}]]))
 
 (defn blog-view [blog]
   (create-page [:div {:class "blog"}
@@ -48,3 +51,7 @@
       [:br]
       [:input {:type "hidden" :name "id" :value (:id blog)}]
       [:input  {:type "submit"}]]]))
+
+(defn four-oh-four []
+  (create-page [:div {:class "blog"}
+    [:h1 "404"]]))
