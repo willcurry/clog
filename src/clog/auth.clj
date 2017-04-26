@@ -24,7 +24,6 @@
 
 (defn login [token]
   (let [id-token (verify-token token)]
-    (println (.getEmail (.getPayLoad id-token)))
     (if (nil? id-token)
         {:success false}
-        {:success true :email (.getEmail (.getPayLoad id-token))})))
+        {:success true :email (.getEmail (.getPayload id-token))})))

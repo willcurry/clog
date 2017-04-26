@@ -3,6 +3,7 @@
        [ring.middleware.resource :as resource]
        [clog.presenter :as presenter]
        [clog.blogs :as blogs]
+       [clog.auth :as auth]
        [clog.permissions :as permissions]))
 
 (defn- response [page]
@@ -40,7 +41,10 @@
 
 (defn- handler [request-data]
   (let [query-data (:query-params request-data)
-        callback (first (map #((keyword (first %)) (requests)) query-data))]
+        callback (first (map #((keyword (first %)) (requests)) query-data))
+        google-id (:form-params request-data)]
+    (if (not (empty? google-id))
+      (auth/login (get (:form-params request-data) "idtoken")))
     (if (nil? callback)
       (response (presenter/index))
       (callback (vals query-data)))))
