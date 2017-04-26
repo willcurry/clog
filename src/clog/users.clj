@@ -14,3 +14,8 @@
     (if (nil? role)
       "user"
       role)))
+
+(defn login [email]
+  (if (empty? (sql/query pg-db ["select * from users where email=?" email]))
+    (save email "user")))
+    

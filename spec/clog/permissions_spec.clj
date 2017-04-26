@@ -3,8 +3,6 @@
             [clog.permissions :as permissions :refer :all]))
 
 (describe "permissions"
-  (around [it] (with-redefs [pg-db "postgresql://localhost:5432/clog_test"] (it))) 
-
   (it "can determine if a user can read"
     (should= true (permissions/can-perform? "read" "user@8thlight.com")))
 

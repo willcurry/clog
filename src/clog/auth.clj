@@ -22,7 +22,7 @@
 (defn- verify-token [token]
   (.verify verifier token))
 
-(defn login [token]
+(defn auth [token]
   (let [id-token (verify-token token)]
     (if (nil? id-token)
         {:success false}

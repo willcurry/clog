@@ -44,7 +44,7 @@
         callback (first (map #((keyword (first %)) (requests)) query-data))
         google-id (:form-params request-data)]
     (if (not (empty? google-id))
-      (auth/login (get (:form-params request-data) "idtoken")))
+      (auth/auth (get (:form-params request-data) "idtoken")))
     (if (nil? callback)
       (response (presenter/index))
       (callback (vals query-data)))))
