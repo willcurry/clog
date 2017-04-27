@@ -11,43 +11,53 @@
    :headers {}
    :body page})
 
-(defn- save-blog-request [save-params]
-  (if (permissions/can-perform? "save" (last save-params))
+(defn- save-blog-request [{save-params :query-values email :email}]
+  (if (permissions/can-perform? "save" email)
     (blogs/save (first save-params)))
   (response (presenter/index)))
 
-(defn- blog-view-request [view-params]
+(defn- blog-view-request [{view-params :query-values}]
   (let [id (read-string (first view-params))
         blog (blogs/retrieve id)]
   (response (presenter/blog-view blog))))
 
-(defn- edit-view-request [edit-params]
+(defn- edit-view-request [{edit-params :query-values}]
   (let [id (read-string (first edit-params))
         blog (blogs/retrieve id)]
   (response (presenter/edit-view blog))))
 
-(defn- update-blog-request [update-params]
+(defn- update-blog-request [{update-params :query-values email :email}]
   (let [text (first update-params)
         id (read-string (second update-params))]
-    (if (permissions/can-perform? "update" (last update-params))
+    (if (permissions/can-perform? "update" email)
       (blogs/update id text))
     (response (presenter/blog-view (blogs/retrieve id)))))
 
-(defn- requests []
+(def requests
   {:save save-blog-request
   :view blog-view-request
   :edit edit-view-request
   :update update-blog-request})
 
-(defn- handler [request-data]
-  (let [query-data (:query-params request-data)
-        callback (first (map #((keyword (first %)) (requests)) query-data))
-        google-id (:form-params request-data)]
-    (if (not (empty? google-id))
-      (auth/auth (get (:form-params request-data) "idtoken")))
-    (if (nil? callback)
-      (response (presenter/index))
-      (callback (vals query-data)))))
+(defn- retrieve-email [form-params]
+  (let [token (get form-params "idtoken")]
+    (if-not (nil? token)
+      (let [info-request (auth/auth token)]
+        (if (:success info-request)
+          (:email info-request))))))
+
+(defn- parse-request [request]
+  (let [page (keyword (first (keys (:query-params request))))]
+      {:callback (page requests)
+       :query-values (vals (:query-params request))
+       :email (retrieve-email (:form-params request))}))
+
+(defn- handler [request]
+  (let [parsed-request (parse-request request)
+        callback (:callback parsed-request)]
+        (if (nil? callback)
+            (response (presenter/index))
+            (callback parsed-request))))
 
 (def app
   (-> handler
