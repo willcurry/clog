@@ -2,6 +2,7 @@
   (:require [speclj.core :refer :all]
             [clog.core :refer :all]
             [clog.blogs :as blogs :refer :all]
+            [clog.permissions :refer :all]
             [clojure.java.jdbc :as sql]))
 
 (describe "core"
@@ -14,10 +15,11 @@
     (should= 200 (:status (app {:query-params {"" ""}}))))
 
   (it "saves the given blog"
+    (with-redefs [can-perform? (fn [x y] true)]
     (app {:query-params {"save" "test"}})
     (should= "test"
       (:blog (first (sql/query pg-db
-        ["select * from blogs where blog='test'"])))))
+        ["select * from blogs where blog='test'"]))))))
   
   (it "goes to the blog view when requested" 
     (blogs/save "test-blog")
@@ -32,10 +34,11 @@
           (:body (app {:query-params {"edit" id}})))))
 
   (it "updates blog when requested"
+    (with-redefs [can-perform? (fn [x y] true)]
     (blogs/save "test-blog")
       (let [id (:id (first (blogs/all)))]
         (app {:query-params {"update" "test" "id" (str id)}})
-        (should= "test" (:blog (blogs/retrieve id)))))
+        (should= "test" (:blog (blogs/retrieve id))))))
 
   (it "does not update blogs when not admin"
     (blogs/save "test-blog")
