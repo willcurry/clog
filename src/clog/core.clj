@@ -48,7 +48,7 @@
 
 (defn- parse-request [request]
   (let [page (keyword (first (keys (:query-params request))))]
-      {:callback (page requests)
+      {:callback (get requests page)
        :query-values (vals (:query-params request))
        :email (retrieve-email (:form-params request))}))
 

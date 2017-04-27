@@ -19,7 +19,7 @@
               [:li [:a {:href "/"} "Home"]
               [:li [:a {:href "https://github.com/willcurry/clog"} "GitHub"]]]]]
               [:div {:class "g-signin2" :data-onsuccess "onSignIn"}]
-              [:a {:href "#" :onclick "signOut();"} "Sign out"]
+              [:a {:href "" :onclick "signOut();"} "Sign out"]
       body]]))
 
 (defn index []
@@ -42,7 +42,8 @@
 
 (defn blog-view [blog]
   (create-page [:div {:class "blog"}
-        [:h1 (:date blog)]
+        [:h1 (str (quot (count
+          (clojure.string/split (:blog blog) #" ")) 150) " mins")]
         [:p (markdown/parse (:blog blog))]
         [:a {:href (str "?edit=" (:id blog))} "Edit"]]))
 
@@ -54,7 +55,3 @@
       [:br]
       [:input {:type "hidden" :name "id" :value (:id blog)}]
       [:input  {:type "submit"}]]]))
-
-(defn four-oh-four []
-  (create-page [:div {:class "blog"}
-    [:h1 "404"]]))
