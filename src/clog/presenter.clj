@@ -29,7 +29,7 @@
       [:img {:src "https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/pr-sample15.jpg", :alt "pr-sample15"}]
       [:div {:class "image"}]
       [:figcaption  
-       [:h3 (:date blog)]
+       [:h3 (blogs/reading-time blog)]
         [:p (blogs/preview-text (:id blog))]]
       [:span {:class "read-more"} "\n    Read More " 
        [:i {:class "ion-android-arrow-forward"}]]
@@ -42,8 +42,7 @@
 
 (defn blog-view [blog]
   (create-page [:div {:class "blog"}
-        [:h1 (str (quot (count
-          (clojure.string/split (:blog blog) #" ")) 150) " mins")]
+        [:h1 (blogs/reading-time blog)]
         [:p (markdown/parse (:blog blog))]
         [:a {:href (str "?edit=" (:id blog))} "Edit"]]))
 

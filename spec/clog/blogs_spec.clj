@@ -38,4 +38,12 @@
   (it "can update blogs"
     (blogs/save "test")
     (blogs/update (id-of-first-blog) "test2")
-    (should= "test2" (:blog (blogs/retrieve (id-of-first-blog))))))
+    (should= "test2" (:blog (blogs/retrieve (id-of-first-blog)))))
+
+  (it "can determine the reading time correctly"
+    (should= "3 mins" 
+      (reading-time {:blog (apply str (repeat 500 "Hello "))})))
+
+  (it "should round to 1 min if below 0"
+    (should= "1 min" 
+      (reading-time {:blog "hello"}))))

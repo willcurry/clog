@@ -25,3 +25,10 @@
 (defn update [id text]
   (sql/execute! pg-db
     ["update blogs SET blog=? WHERE id=?" text id]))
+
+(defn reading-time [blog]
+  (let [time (quot (count (clojure.string/split (:blog blog) #" ")) 150)]
+    (if (< time 1)
+      "1 min"
+      (str time " mins"))))
+
