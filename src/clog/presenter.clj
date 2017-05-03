@@ -1,21 +1,26 @@
 (ns clog.presenter
-  (use [clog.blogs])
   (:require [hiccup.page :as page]
-            [clog.markdown :as markdown]))
+            [clog.markdown :as markdown]
+            [clog.blogs :as blogs]
+            [clog.users :as users]))
 
 (defn- create-page [body]
   (page/html5
       [:head
+        [:script {:src "https://apis.google.com/js/platform.js" :async "async" :defer "defer" }]
+        [:meta {:name "google-signin-client_id" :content "862198892066-45b2o1fbgbf8v6n4r89pe3gitiab63di.apps.googleusercontent.com"}]
         [:title "Clog"]
-        (page/include-css "css/style.css")]
+        (page/include-css "css/style.css")
+        (page/include-js "js/google.js")]
       [:body 
         [:header 
           [:div {:class "nav"}
             [:ul
               [:li [:a {:href "/"} "Home"]
               [:li [:a {:href "https://github.com/willcurry/clog"} "GitHub"]]]]]
+              [:div {:class "g-signin2" :data-onsuccess "onSignIn"}]
+              [:a {:href "" :onclick "signOut();"} "Sign out"]
       body]]))
-
 
 (defn index []
   (create-page [:div [:h1 "Blogs"]
@@ -24,12 +29,12 @@
       [:img {:src "https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/pr-sample15.jpg", :alt "pr-sample15"}]
       [:div {:class "image"}]
       [:figcaption  
-       [:h3 (:date blog)]
-        [:p (preview-blog (:id blog))]]
+       [:h3 (blogs/reading-time blog)]
+        [:p (blogs/preview-text (:id blog))]]
       [:span {:class "read-more"} "\n    Read More " 
        [:i {:class "ion-android-arrow-forward"}]]
       [:a {:href (str "?view=" (:id blog))}]]) 
-    (all-blogs))
+    (blogs/all))
     [:form 
       [:textarea {:rows "5", :cols "60", :name "save"}]
       [:br]
@@ -37,7 +42,7 @@
 
 (defn blog-view [blog]
   (create-page [:div {:class "blog"}
-        [:h1 (:date blog)]
+        [:h1 (blogs/reading-time blog)]
         [:p (markdown/parse (:blog blog))]
         [:a {:href (str "?edit=" (:id blog))} "Edit"]]))
 
