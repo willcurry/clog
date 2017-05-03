@@ -41,12 +41,14 @@
         (should= "test" (:blog (blogs/retrieve id))))))
 
   (it "does not update blogs when not admin"
+    (with-redefs [can-perform? (fn [x y] false)]
     (blogs/save "test-blog")
       (let [id (:id (first (blogs/all)))]
         (app {:query-params {"update" "test" "id" (str id)}})
-        (should= "test-blog" (:blog (blogs/retrieve id)))))
+        (should= "test-blog" (:blog (blogs/retrieve id))))))
 
   (it "does not save the given blog when not admin"
+    (with-redefs [can-perform? (fn [x y] false)]
     (app {:query-params {"save" "test"}})
     (should= 0
-      (count (blogs/all)))))
+      (count (blogs/all))))))
