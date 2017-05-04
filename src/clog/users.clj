@@ -4,9 +4,9 @@
 (def pg-db 
   "postgresql://localhost:5432/clog")
 
-(defn save [email]
+(defn save [email password]
   (sql/insert! pg-db :users
-    {:email email}))
+    {:email email :password password}))
 
 (defn user-id [email]
   (:user_id (first (sql/query pg-db

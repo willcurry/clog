@@ -8,7 +8,7 @@
 
 (defn create-fake-data []
     (sql/insert! pg-db :users
-      {:email "wcurry@8thlight.com"})
+      {:email "wcurry@8thlight.com" :password "pw"})
     (sql/insert! pg-db :roles
       {:name "admin"})
     (sql/insert! pg-db :permissions

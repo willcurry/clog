@@ -14,7 +14,7 @@
     (fake-users/clear-tables))
   
   (it "saves users"
-    (users/save "test@test.com")
+    (users/save "test@test.com" "pw")
     (should= 1
       (count (sql/query pg-db
         ["select * from users where email='test@test.com'"]))))
