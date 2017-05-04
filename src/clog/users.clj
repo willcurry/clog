@@ -16,10 +16,6 @@
   (:role_id (first (sql/query pg-db
     ["select role_id from user_roles where user_id=?" user-id]))))
 
-(defn role-id-from [name]
-  (:role_id (first (sql/query pg-db
-    ["select role_id from roles where name=?" name]))))
-
 (defn role-for [email]
   (let [role (:name (first (sql/query pg-db
     ["select name from roles where role_id=?" (role-id (user-id email))])))]
