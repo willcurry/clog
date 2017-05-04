@@ -9,12 +9,13 @@
                  [hiccup "1.0.5"]
                  [org.clojure/java.jdbc "0.6.1"]
                  [org.postgresql/postgresql "9.4-1201-jdbc41"]
-                 [endophile "0.2.1"]
-                 [com.google.api-client/google-api-client "1.22.0"]
-                 [com.google.http-client/google-http-client-jackson2 "1.22.0"]]
+                 [endophile "0.2.1"]]
   :profiles {:dev {:dependencies [[speclj "3.3.2"]]}}
   :plugins [[speclj "3.3.2"]
-            [lein-ring "0.11.0"]]
+            [lein-ring "0.11.0"]
+            [clj-sql-up "0.3.7"]]
   :test-paths ["spec"]
-  :ring {:handler clog.core/app})
+  :ring {:handler clog.core/app}
+  :clj-sql-up {:database "postgresql://localhost:5432/clog_test"
+               :deps [[org.postgresql/postgresql "9.4-1201-jdbc41"]]})
 

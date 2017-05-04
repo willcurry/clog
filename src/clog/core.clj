@@ -3,7 +3,6 @@
        [ring.middleware.resource :as resource]
        [clog.presenter :as presenter]
        [clog.blogs :as blogs]
-       [clog.auth :as auth]
        [clog.permissions :as permissions]))
 
 (defn- response [page]
@@ -39,18 +38,11 @@
   :edit edit-view-request
   :update update-blog-request})
 
-(defn- retrieve-email [form-params]
-  (let [token (get form-params "idtoken")]
-    (if-not (nil? token)
-      (let [info-request (auth/auth token)]
-        (if (:success info-request)
-          (:email info-request))))))
-
 (defn- parse-request [request]
   (let [page (keyword (first (keys (:query-params request))))]
       {:callback (get requests page)
        :query-values (vals (:query-params request))
-       :email (retrieve-email (:form-params request))}))
+       :email nil}))
 
 (defn- handler [request]
   (let [parsed-request (parse-request request)

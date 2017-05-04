@@ -1,8 +1,19 @@
-(ns clog.core-spec
+(ns clog.permissions-spec
   (:require [speclj.core :refer :all]
-            [clog.permissions :as permissions :refer :all]))
+            [clog.users :as users :refer :all]
+            [clog.permissions :as permissions :refer :all]
+            [clog.fake-users :as fake-users :refer :all]
+            [clojure.java.jdbc :as sql]))
 
 (describe "permissions"
+  (around [it] (with-redefs [pg-db "postgresql://localhost:5432/clog_test"] (it))) 
+
+  (before
+    (fake-users/create-fake-data))
+
+  (after
+    (fake-users/clear-tables))
+
   (it "can determine if a user can read"
     (should= true (permissions/can-perform? "read" "user@8thlight.com")))
 
