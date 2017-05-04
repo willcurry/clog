@@ -7,19 +7,14 @@
 (defn- create-page [body]
   (page/html5
       [:head
-        [:script {:src "https://apis.google.com/js/platform.js" :async "async" :defer "defer" }]
-        [:meta {:name "google-signin-client_id" :content "862198892066-45b2o1fbgbf8v6n4r89pe3gitiab63di.apps.googleusercontent.com"}]
         [:title "Clog"]
-        (page/include-css "css/style.css")
-        (page/include-js "js/google.js")]
+        (page/include-css "css/style.css")]
       [:body 
         [:header 
           [:div {:class "nav"}
             [:ul
               [:li [:a {:href "/"} "Home"]
               [:li [:a {:href "https://github.com/willcurry/clog"} "GitHub"]]]]]
-              [:div {:class "g-signin2" :data-onsuccess "onSignIn"}]
-              [:a {:href "" :onclick "signOut();"} "Sign out"]
       body]]))
 
 (defn index []
